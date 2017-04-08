@@ -170,21 +170,19 @@
         parentRow = row.parentNode.className;
         var tr = document.getElementsByTagName('tr');
         for(var i = 1; i < tr.length; i++) {
-			for(var value of tr[i].classList.values()) { 
-				console.log(value); 
-			}					
-            if(tr[i].classList == 'selected') {	
-                tr[i].classList.remove("selected");
-            }
+			for(var value of tr[i].classList.values()) {
+				tr[i].classList.remove("selected");
+			}
         }
 
         if(parentRow != 'selected') {
-            row.parentNode.classList.add('selected'); 
-			
-			                 
+            row.parentNode.classList.add('selected');
+			_enableButton();           
         }        
     }
 
+	// Enable the buttons of edit and remove
+	
 	window.app = {
 		showEditor: showEditor,
 		reset: resetBill,
