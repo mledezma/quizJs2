@@ -182,7 +182,13 @@
     }
 
 	// Enable the buttons of edit and remove
-	
+	// function _enableButton() {
+	// 	var btnEditBill = document.getElementById('editBill');
+	// 	var btnRemoveBill = document.getElementById('removeBill');
+
+	// 	btnEditBill.prop
+	// }
+
 	window.app = {
 		showEditor: showEditor,
 		reset: resetBill,
