@@ -1,0 +1,15 @@
+.bill-table, .bill-sum-list {
+    background-color: $main-gray;
+    border-left: 2px solid $secondary-purple;
+    border-right: 2px solid $secondary-purple;    
+}
+
+.bill-table {
+    margin: 0 auto;
+    width: 90%;
+
+    th{
+        span{cursor: pointer;}
+    }
+}
+

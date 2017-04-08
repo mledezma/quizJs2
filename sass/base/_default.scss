@@ -1,0 +1,69 @@
+body {
+    background-color: $main-blue;
+}
+
+section, div, body, table, thead, tr, th, td, form, button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+label, p, h1, h2, h3, div, button{
+    font-size: 20px;    
+    color: $secondary-purple;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="number"], input[type="date"], input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus  {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid $secondary-purple;
+}
+
+input[type="text"], input[type="number"], input[type="date"] {
+    font-size: 18px;
+    color: $secondary-purple;
+    width: 100%;
+}
+
+input[type="reset"], input[type="submit"] {
+    border: 2px solid $secondary-purple;
+    background-color: transparent;
+    color: $secondary-purple;
+    cursor: pointer;    
+    padding: 1.5% 2%;
+    width: 15%;
+
+    &:hover {
+        background-color: $secondary-purple;   
+        color: $main-gray;         
+    }
+}
+
+button {
+    border: 2px solid $secondary-purple;
+    background-color: $main-gray;
+    color: $secondary-purple;
+    cursor: pointer;
+    padding: 1.5% 2%;
+    width: 90%;
+
+    &:hover {
+        background-color: $secondary-purple;   
+        color: $main-gray;         
+    }
+}
+
+input[type="submit"] {
+    float: left;
+    margin-left: 5%;
+}
+
+input[type="reset"]{
+    float: right;
+    margin-right: 5%;    
+}
