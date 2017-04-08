@@ -9,33 +9,43 @@
 	<div class="wrapper">
 
 		<div id="navbar">
-			<input type="text" placeholder="Search" class="search">
-			<input type="button" value="Add New Note" id="addNote">
+			<input type="button" value="Add New Bill" id="addBill">
 		</div>
 
 		<section>
 			<table class="bill-table"> 
 				<thead>
 					<tr>
-						<th>Description <span id="sortName">&#9660</span></th>
+						<th>Description</th>
 						<th>Date <span id="sortDate">&#9660</span></th>
 						<th>Type <span id="sortType">&#9660</span></th>
 						<th>Amount <span id="sortAmount">&#9660</span></th>
 					</tr>
 				</thead>
-				<tbody id="noteBook">
+				<tbody id="billTable">
 				
 				</tbody>
 			</table>
 		</section>
 		
 
-		<section class="hidden" id="noteNode">
-			<form id="noteForm">
-				<input type="text" placeholder="New Note title" name="description">
-				<input type="text" placeholder="New Note title" name="type">
-				<input type="text" placeholder="New Note title" name="amount">
-				<input type="text" placeholder="New Note title" name="date">
+		<section class="hidden" id="billNode">
+			<form id="billForm">
+				<label for="description">Description:</label>
+				<input id="description" type="text" placeholder="New Note title" name="description" required>
+				<label for="type">Type:</label>
+				<select id="type" name="type" placeholder="New Note title">
+					<option value="credit">Credit</option>	
+					<option value="debit">Debit</option>	
+				</select>
+				<label for="amount">Amount:</label>
+				<input id="amount" type="number" placeholder="New Note title" name="amount" required>
+				<label for="date">Date:</label>
+				<input id="date" type="date" placeholder="New Note title" name="date" required>
+				<label for="department">Department:</label>
+				<input id="department" type="text" placeholder="New Note title" name="department">
+				<label for="notes">Notes:</label>
+				<input id="notes" type="text" placeholder="New Note title" name="notes">
 				<div>
 					<input type="button" value="Save" id="save" name="submit">
 					<input type="button" value="Discard" id="discard" name="discard">

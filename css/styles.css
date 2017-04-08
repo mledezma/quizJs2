@@ -49,6 +49,15 @@ section {
   .bill-table th span {
     cursor: pointer; }
 
+.credit {
+  background-color: red; }
+
+.debit {
+  background-color: green; }
+
+.selected {
+  background-color: blue; }
+
 .bill-new {
   background-color: #FF9838;
   padding-bottom: 2%; }

@@ -1,112 +1,217 @@
 
 // IIEF
 (function(window){
-	var Noteform = document.getElementById('noteForm');
+	var Billform = document.getElementById('billForm');
 	var form = {
-		description: Noteform.description,
-		type: Noteform.type,
-		amount: Noteform.amount,
-		date: Noteform.date,
+		description: Billform.description,
+		date: Billform.date,		
+		type: Billform.type,
+		amount: Billform.amount,		
+		department: Billform.department,
+		notes: Billform.notes,
 	}
-	var notes = null;
+	var isValid = null;
+	var bills = [];
 	var nodeId = 0;
 
 	// Composes the bill
-	function composeNote(note) {
+	function composeBill(bill) {
 		var tr = document.createElement('tr');
 		var tdDescription = document.createElement('td');
-		var tdType = document.createElement('td');
 		var tdAmount = document.createElement('td');
+		var tdType = document.createElement('td');		
 		var tdDate = document.createElement('td');
 
-		tr.setAttribute('id', note.id);
-		tr.classList.add('note');
+		tr.setAttribute('id', bill.id);
 
-		tdDescription.innerText = note.description;
-		tdType.innerText = note.type;
-		tdAmount.innerText = note.amount;
-		tdDate.innerText = note.date;
+		tdDescription.innerText = bill.description;
+		tdType.innerText = bill.type;
+		tdDate.innerText = bill.date;
+		tdAmount.innerText = bill.amount;		
+
+		tdDescription.classList = 'description';
+		tdType.classList = 'type';
+		tdDate.classList = 'date';
+		tdAmount.classList = 'amount';		
 
 		tr.appendChild(tdDescription);
+		tr.appendChild(tdDate);		
 		tr.appendChild(tdType);
-		tr.appendChild(tdAmount);
-		tr.appendChild(tdDate);
+		tr.appendChild(tdAmount);		
 
 		return tr;
 	}
 
 	// Renders the bills in a table format
-	function renderNotes() {
-        var container= document.getElementById('noteBook');
-		var noteBook = notes.map(composeNote);
-		console.log(noteBook);
-		noteBook.forEach(function(note){
-			container.appendChild(note);
+	function renderBills() {
+        var container= document.getElementById('billTable');
+		var billArray = bills.map(composeBill);
+		container.innerHTML = '';
+		billArray.forEach(function(bill){
+
+			// Highlights the row depending of the type
+			var billType = bill.childNodes[2];
+			if(billType.innerHTML === 'credit') {
+				bill.className += ' credit';
+			} else if(billType.innerHTML === 'debit') {
+				bill.className += ' debit';
+			}
+
+			// Apends every node to the container
+			container.appendChild(bill);
 		});
 	}
 
 	// Renders the bill using the "form" as a object param
 	function main(data) {
 		if(data && Array.isArray(data)){
-			notes = data;
-			return renderNotes();
+			bills = data;
+			return renderBills();
 		}
 
-		return new Error('Notes Array params required', notes);
+		return new Error('Bill Array params required', bills);
 	}
 
 	// Toggles the visibility of the bills
 	function showEditor() {
-		document.getElementById('noteBook').className = 'hidden';
-		document.getElementById('noteNode').className = '';
+		document.getElementById('billTable').className = 'hidden';
+		document.getElementById('billNode').className = '';
 	}
 
-	// Discards the bill
-	function discardNote() {
-		document.getElementById('noteNode').className = 'hidden';
-		document.getElementById('noteBook').className = '';
+	// Resets the bill
+	function resetBill() {
+		document.getElementById('billNode').className = 'hidden';
+		document.getElementById('billTable').className = '';
 		form.description.value = '';
-		form.type.value = '';
 		form.amount.value = '';
 		form.date.value = '';
+		form.department.value = '';
+		form.notes.value = '';
 	}
 
 	// Delete the bill
-	function deleteNote() {
-		var note = this.closest('div');
-		note.parentNode.removeChild(note);
+	function deleteBill() {
+		var bill = this.closest('div');
+		bill.parentNode.removeChild(bill);
 	}
 
 	// Edits the bill
-	function editNote() {
+	function editBill() {
 
 	}
 
 	// Saves the bill
-	function saveNote() {
-		var notes = [];
+	function saveBill() {
 		var i = {
 			id: nodeId++, 
 			description: form.description.value,
-			type: form.type.value,
-			amount: form.amount.value,
 			date: form.date.value,
+			type: form.type.value,			
+			amount: parseInt(form.amount.value),			
 		}
-		notes.push(i);
-		main(notes);
-		discardNote();
+		_validation(i);
+		if(!isValid) {
+			console.log('waaaat')
+			return false;
+		}
+		bills.push(i);
+		main(bills);
+		resetBill();
 	}
+
+	// Sorts the table
+	function _sort(sort) {
+		var sorting = sort.target.id;					
+		switch(sorting) {
+			case 'sortDate':
+				bills.sort(function(a, b) {
+					if(a.date < b.date) return 1;
+					if(a.date > b.date) return -1;
+					return 0;
+				});
+				break;
+			case 'sortType':
+				bills.sort(function(a, b) {
+					if(a.type === 'debit') return 1;
+					if(a.type === 'credit') return -1;
+					return 0;
+				});
+				break;
+			case 'sortAmount':
+				bills.sort(function(a, b) {
+					if(a.amount < b.amount) return 1;
+					if(a.amount > b.amount) return -1;
+					return 0;
+				});
+				break;
+		}
+		renderBills();
+	}
+
+	// Form validation
+	function _validation(i) {
+		isValid = true;
+        if(i.description === ''){              
+            alert('Insert a description');
+            isValid = false;
+        }
+		if(i.amount === '' || isNaN(i.amount)){
+            alert('Insert a valid amount');
+            isValid = false;
+        }
+        if(i.date === '' || !isNaN(i.date)){              
+            alert('Insert a valid date');
+            isValid = false;
+        }
+	}
+
+	// Highlight Row
+    function highlightRow(row) {
+        parentRow = row.parentNode.className;
+        var tr = document.getElementsByTagName('tr');
+        for(var i = 1; i < tr.length; i++) {
+			for(var value of tr[i].classList.values()) { 
+				console.log(value); 
+			}					
+            if(tr[i].classList == 'selected') {	
+                tr[i].classList.remove("selected");
+            }
+        }
+
+        if(parentRow != 'selected') {
+            row.parentNode.classList.add('selected'); 
+			
+			                 
+        }        
+    }
 
 	window.app = {
 		showEditor: showEditor,
-		discard: discardNote,
-		delete: deleteNote,
-		edit: editNote,
-		new: saveNote,
+		reset: resetBill,
+		delete: deleteBill,
+		edit: editBill,
+		new: saveBill,
+		sort: function(sort) {
+			_sort(sort);
+		},
+		highlightRow: function(row){
+            highlightRow(row);
+        },
 	};
 
 }(window));
 
-document.getElementById('addNote').addEventListener('click', app.showEditor);
-document.getElementById('discard').addEventListener('click', app.discard);
+// Create Bill
+document.getElementById('addBill').addEventListener('click', app.showEditor);
+document.getElementById('discard').addEventListener('click', app.reset);
 document.getElementById('save').addEventListener('click', app.new);
+
+// Sorts
+document.getElementById('sortDate').addEventListener('click', app.sort);
+document.getElementById('sortType').addEventListener('click', app.sort);
+document.getElementById('sortAmount').addEventListener('click', app.sort);
+
+// Highlight
+document.getElementById('billTable').addEventListener('click', function(e) {
+    app.highlightRow(e.target)
+});
