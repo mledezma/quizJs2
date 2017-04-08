@@ -1,1 +1,32 @@
+textarea {
+	width: 1200px;
+	height: 500px
+}
+
+section {
+	margin-top: 30px;
+}
+
+.wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+}
+
+#navbar {
+	position: fixed;
+	text-align: left;
+	top: 0;
+	width: 100%;
+}
+
+.hidden {
+	display: none;
+}
+
+.search {
+	width: 58%;
+}
+
 @import "wrapper";

@@ -1,62 +1,31 @@
-body {
-  background-color: #5284FF; }
-
-section, div, body, table, thead, tr, th, td, form, button {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0; }
-
-label, p, h1, h2, h3, div, button {
-  font-size: 20px;
-  color: #542DCC; }
-
-label {
-  display: block;
-  margin-bottom: 5px; }
-
-input[type="text"], input[type="number"], input[type="date"], input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
-  background-color: transparent;
-  border: none;
-  border-bottom: 2px solid #542DCC; }
-
-input[type="text"], input[type="number"], input[type="date"] {
-  font-size: 18px;
-  color: #542DCC;
-  width: 100%; }
-
-input[type="reset"], input[type="submit"] {
-  border: 2px solid #542DCC;
-  background-color: transparent;
-  color: #542DCC;
-  cursor: pointer;
-  padding: 1.5% 2%;
-  width: 15%; }
-  input[type="reset"]:hover, input[type="submit"]:hover {
-    background-color: #542DCC;
-    color: #FF9838; }
-
-button {
-  border: 2px solid #542DCC;
-  background-color: #FF9838;
-  color: #542DCC;
-  cursor: pointer;
-  padding: 1.5% 2%;
-  width: 90%; }
-  button:hover {
-    background-color: #542DCC;
-    color: #FF9838; }
-
-input[type="submit"] {
-  float: left;
-  margin-left: 5%; }
-
-input[type="reset"] {
-  float: right;
-  margin-right: 5%; }
-
 .clearfix {
   overflow: auto;
   zoom: 1; }
+
+textarea {
+  width: 1200px;
+  height: 500px; }
+
+section {
+  margin-top: 30px; }
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  text-align: center; }
+
+#navbar {
+  position: fixed;
+  text-align: left;
+  top: 0;
+  width: 100%; }
+
+.hidden {
+  display: none; }
+
+.search {
+  width: 58%; }
 
 .full-wrapper {
   margin: 0 auto;
@@ -68,6 +37,17 @@ input[type="reset"] {
 
 .center {
   text-align: center; }
+
+.bill-table, .bill-sum-list {
+  background-color: #FF9838;
+  border-left: 2px solid #542DCC;
+  border-right: 2px solid #542DCC; }
+
+.bill-table {
+  margin: 0 auto;
+  width: 90%; }
+  .bill-table th span {
+    cursor: pointer; }
 
 .bill-new {
   background-color: #FF9838;
@@ -81,17 +61,6 @@ input[type="reset"] {
   list-style: none;
   margin: 0 auto;
   width: 84%; }
-
-.bill-table, .bill-sum-list {
-  background-color: #FF9838;
-  border-left: 2px solid #542DCC;
-  border-right: 2px solid #542DCC; }
-
-.bill-table {
-  margin: 0 auto;
-  width: 90%; }
-  .bill-table th span {
-    cursor: pointer; }
 
 .hidden {
   display: none; }
