@@ -13,6 +13,7 @@
 	var isValid = null;
 	var bills = [];
 	var nodeId = 0;
+	var thisTr = null;
 
 	// Composes the bill
 	function composeBill(bill) {
@@ -91,8 +92,15 @@
 
 	// Delete the bill
 	function deleteBill() {
-		var bill = this.closest('div');
+		var bill = thisTr.closest('tr');
+		console.log(bill)	
 		bill.parentNode.removeChild(bill);
+
+		bills.forEach(function(data, index) {
+			if(data.id = bill.id) {
+				if (index > -1) bills.splice(index, 1);
+			}
+		})
 	}
 
 	// Edits the bill
@@ -111,7 +119,6 @@
 		}
 		_validation(i);
 		if(!isValid) {
-			console.log('waaaat')
 			return false;
 		}
 		bills.push(i);
@@ -132,8 +139,8 @@
 				break;
 			case 'sortType':
 				bills.sort(function(a, b) {
-					if(a.type === 'debit') return 1;
-					if(a.type === 'credit') return -1;
+					if(a.type === 'debit') return -1;
+					if(a.type === 'credit') return 1;
 					return 0;
 				});
 				break;
@@ -177,17 +184,19 @@
 
         if(parentRow != 'selected') {
             row.parentNode.classList.add('selected');
+			thisTr = row;
 			_enableButton();           
         }        
     }
 
 	// Enable the buttons of edit and remove
-	// function _enableButton() {
-	// 	var btnEditBill = document.getElementById('editBill');
-	// 	var btnRemoveBill = document.getElementById('removeBill');
+	function _enableButton() {
+		var btnEditBill = document.getElementById('editBill');
+		var btnRemoveBill = document.getElementById('deleteBill');
 
-	// 	btnEditBill.prop
-	// }
+		btnEditBill.removeAttribute('disabled');
+		btnRemoveBill.removeAttribute('disabled');
+	}
 
 	window.app = {
 		showEditor: showEditor,
@@ -205,10 +214,11 @@
 
 }(window));
 
-// Create Bill
+// Bill
 document.getElementById('addBill').addEventListener('click', app.showEditor);
 document.getElementById('discard').addEventListener('click', app.reset);
 document.getElementById('save').addEventListener('click', app.new);
+document.getElementById('deleteBill').addEventListener('click', app.delete);
 
 // Sorts
 document.getElementById('sortDate').addEventListener('click', app.sort);
