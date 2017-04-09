@@ -1,22 +1,24 @@
 
 // IIEF
 (function(window){
-	var Billform = document.getElementById('billForm');
+	var billForm = document.getElementById('billForm');
 	var form = {
-		description: Billform.description,
-		date: Billform.date,		
-		type: Billform.type,
-		amount: Billform.amount,		
-		department: Billform.department,
-		notes: Billform.notes,
+		description: billForm.description,
+		date: billForm.date,		
+		type: billForm.type,
+		amount: billForm.amount,		
+		department: billForm.department,
+		notes: billForm.notes,
 	}
 	var isValid = null;
 	var bills = [];
 	var nodeId = 0;
 	var thisTr = null;
+	var edit = false;
+	var sumBills = 0;
 
 	// Composes the bill
-	function composeBill(bill) {
+	function _composeBill(bill) {
 		var tr = document.createElement('tr');
 		var tdDescription = document.createElement('td');
 		var tdAmount = document.createElement('td');
@@ -44,11 +46,11 @@
 	}
 
 	// Renders the bills in a table format
-	function renderBills() {
+	function _renderBills() {
         var container= document.getElementById('billTable');
-		var billArray = bills.map(composeBill);
+		var billArray = bills.map(_composeBill);
 		container.innerHTML = '';
-		billArray.forEach(function(bill){
+		billArray.forEach(function(bill) {
 
 			// Highlights the row depending of the type
 			var billType = bill.childNodes[2];
@@ -64,10 +66,10 @@
 	}
 
 	// Renders the bill using the "form" as a object param
-	function main(data) {
+	function _main(data) {
 		if(data && Array.isArray(data)){
 			bills = data;
-			return renderBills();
+			return _renderBills();
 		}
 
 		return new Error('Bill Array params required', bills);
@@ -88,11 +90,13 @@
 		form.date.value = '';
 		form.department.value = '';
 		form.notes.value = '';
+		sumBills = 0;
 	}
 
 	// Delete the bill
 	function deleteBill() {
-		var bill = thisTr.closest('tr');
+		if(confirm('Are you sure you want to save this thing into the database?')) {
+			var bill = thisTr.closest('tr');
 		console.log(bill)	
 		bill.parentNode.removeChild(bill);
 
@@ -101,11 +105,21 @@
 				if (index > -1) bills.splice(index, 1);
 			}
 		})
+		}
+		else{
+			console.log('hi')
+		}
+		
 	}
 
 	// Edits the bill
 	function editBill() {
-
+		showEditor();	
+		var element = thisTr.parentNode;
+		for(var prop in form) {
+			form[prop].value = bills[element.id][prop];
+		}
+		edit = true;
 	}
 
 	// Saves the bill
@@ -121,9 +135,19 @@
 		if(!isValid) {
 			return false;
 		}
-		bills.push(i);
-		main(bills);
+		if(edit) {
+			var element = thisTr.parentNode;
+			console.log(bills)
+			bills.splice(element.id, 1, i);
+			console.log(bills)
+			
+		} else {
+			bills.push(i);			
+		}
+		_main(bills);
+		//_sumBill()
 		resetBill();
+		edit = false;
 	}
 
 	// Sorts the table
@@ -152,7 +176,7 @@
 				});
 				break;
 		}
-		renderBills();
+		_renderBills();
 	}
 
 	// Form validation
@@ -198,6 +222,22 @@
 		btnRemoveBill.removeAttribute('disabled');
 	}
 
+	// // Sums the bills
+	// function _sumBill() {
+	// 	bills.forEach(function(value) {
+	// 		sumBills += value.amount;
+	// 		console.log(sumBills)
+	// 	})
+
+	// 	_renderFooter();
+	// }
+
+	// // Renders the footer
+	// function _renderFooter() {
+	// 	var tdCredit = document.createElement(td);
+	// 	var td
+	// }
+	
 	window.app = {
 		showEditor: showEditor,
 		reset: resetBill,
@@ -219,6 +259,7 @@ document.getElementById('addBill').addEventListener('click', app.showEditor);
 document.getElementById('discard').addEventListener('click', app.reset);
 document.getElementById('save').addEventListener('click', app.new);
 document.getElementById('deleteBill').addEventListener('click', app.delete);
+document.getElementById('editBill').addEventListener('click', app.edit);
 
 // Sorts
 document.getElementById('sortDate').addEventListener('click', app.sort);
